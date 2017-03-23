@@ -1,0 +1,5 @@
+tab_settings#:#Einstellungen
+tbl_auth_settings#:#Einstellungen zur Apache-Authentifizierung
+apache_indicator_name#:#Indikator-Name für erfolgreiche Apache-Authentifizierung
+apache_indicator_value#:#Indikator-Wert für erfolgreiche Apache-Authentifizierung
+apache_uname_field#:#Apache-Feld des Benutzernamens

@@ -1,0 +1,5 @@
+tab_settings#:#Settings
+tbl_auth_settings#:#Settings for Apache Authentication
+apache_indicator_name#:#Indicator name for apache authentication
+apache_indicator_value#:#Indicator value for apache authentication
+apache_uname_field#:#Apache-Field for Usernames
