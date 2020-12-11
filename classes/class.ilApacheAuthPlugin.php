@@ -20,6 +20,8 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 	const PNAME = 'ApacheAuth';
 	
 	const AUTH_ID_BASE = 2000;
+
+	const AUTH_NAME = 'Netscaler SSO';
 	
 	
 	/**
@@ -67,7 +69,9 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 	 */
 	public function getAuthIds()
 	{
-		return array();
+	    return [
+            self::AUTH_ID_BASE
+        ];
 	}
 
 	/**
@@ -76,12 +80,7 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 	 */
 	public function getAuthIdByName($a_auth_name)
 	{
-		if(stristr($a_auth_name, '_'))
-		{
-			$exploded = explode('_',$a_auth_name);
-			return self::AUTH_ID_BASE + $exploded[1];
-		}
-		return self::AUTH_ID_BASE;
+	    return self::AUTH_ID_BASE;
 	}
 	
 	/**
@@ -91,21 +90,9 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 	 */
 	public function getAuthName($a_auth_id)
 	{
-		$GLOBALS['ilLog']->getLogger()->warning('Called get auth name for apache plugin');
-		$GLOBALS['ilLog']->getLogger()->logStack(ilLogLevel::WARNING);
-		return '';
+	    return self::AUTH_NAME;
 	}
 
-	
-	/**
-	 * Get container
-	 */
-	public function getContainer($a_auth_id)
-	{
-		$this->includeClass('class.ilAuthContainerApachePlugin.php');
-		$container = new ilAuthContainerApachePlugin();
-		return $container;
-	}
 
 	/**
 	 * 
