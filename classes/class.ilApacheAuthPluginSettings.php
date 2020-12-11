@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Fhoev event settings
+ *  Authentication settings
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
@@ -44,7 +44,7 @@ class ilApacheAuthPluginSettings
 	 * Get storage
 	 * @return ilSetting
 	 */
-	protected function getStorage()
+	protected function getStorage() : ilSetting
 	{
 		return $this->storage;
 	}

@@ -43,6 +43,14 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 		);
 		
 	}
+
+    /**
+     * Init autoloading
+     */
+	protected function init()
+    {
+        $this->initAutoLoad();
+    }
 	
 	/**
 	 * Get name of plugin.
@@ -52,13 +60,6 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 		return self::PNAME;
 	}
 
-	/**
-	 * Init slot
-	 */
-	protected function slotInit()
-	{
-		$this->initAutoLoad();
-	}
 
 	/**
 	 * Get all active auth ids
@@ -178,7 +179,9 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 	 */
 	protected function initAutoLoad()
 	{
-		$GLOBALS['ilLog']->getLogger('lfskyauth')->debug('Init auto load');
+	    global $DIC;
+	    $logger = $DIC->logger()->auth();
+		$logger->debug('Init auto load');
 		spl_autoload_register(
 			array($this,'autoLoad')
 		);
@@ -194,5 +197,13 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 		$class_file = $this->getClassesDirectory().'/class.'.$a_classname.'.php';
 		@include_once($class_file);
 	}
+
+    /**
+     * @inheritDoc
+     */
+    public function getProvider(ilAuthCredentials $credentials, $a_auth_mode)
+    {
+        return new ilAuthProviderApacheAuth($credentials);
+    }
 }
 ?>
