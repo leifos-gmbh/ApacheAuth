@@ -3,10 +3,13 @@
 class ilAuthProviderApacheAuth extends ilAuthProvider implements ilAuthProviderInterface
 {
     /**
-     * @var \ilLogger
+     * @var ilLogger|null
      */
     private $logger = null;
 
+    /**
+     * @var ilApacheAuthPluginSettings|null
+     */
     private $server = null;
 
     /**
@@ -36,16 +39,14 @@ class ilAuthProviderApacheAuth extends ilAuthProvider implements ilAuthProviderI
      */
     public function doAuthentication(ilAuthStatus $status)
     {
-        if(!isset($_SERVER[$this->getServer()->getIndicatorName()]))
-        {
+        if (!isset($_SERVER[$this->getServer()->getIndicatorName()])) {
             $this->logger->debug('Authentication failed: no input for indicator value found');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');
             return false;
         }
-        if(strcasecmp($_SERVER[$this->getServer()->getIndicatorName()], $this->getServer()->getIndicatorValue()) !== 0)
-        {
-            $this->logger->debug($this->getServer()->getIndicatorValue().' does not match '. $_SERVER[$this->getServer()->getIndicatorName()]);
+        if (strcasecmp($_SERVER[$this->getServer()->getIndicatorName()], $this->getServer()->getIndicatorValue()) !== 0) {
+            $this->logger->debug($this->getServer()->getIndicatorValue() . ' does not match ' . $_SERVER[$this->getServer()->getIndicatorName()]);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');
             return false;
@@ -53,31 +54,25 @@ class ilAuthProviderApacheAuth extends ilAuthProvider implements ilAuthProviderI
 
         $uname = $_SERVER[$this->getServer()->getUsernameField()];
         $this->logger->info('Original username: ' . $uname);
-        if(!strlen($uname))
-        {
+        if (!strlen($uname)) {
             $this->logger->info('No username given');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');
             return false;
         }
-        if(strpos($uname, '@') === false)
-        {
+        if (!str_contains($uname, '@')) {
             $uname_without_domain = $uname;
-        }
-        else
-        {
+        } else {
             $uname_without_domain = substr($uname, 0, strpos($uname, '@'));
         }
         $this->logger->info('Shortened username: ' . $uname_without_domain);
 
         // check for external account
         $servers = ilLDAPServer::_getActiveServerList();
-        foreach($servers as $server_id)
-        {
-            $ext_account = ilObjUser::_checkExternalAuthAccount('ldap_'.$server_id, $uname_without_domain);
-            if($ext_account)
-            {
-                $this->logger->info('Found ILIAS login name "'.$ext_account.'" for user: ' . $uname_without_domain);
+        foreach ($servers as $server_id) {
+            $ext_account = ilObjUser::_checkExternalAuthAccount('ldap_' . $server_id, $uname_without_domain);
+            if ($ext_account) {
+                $this->logger->info('Found ILIAS login name "' . $ext_account . '" for user: ' . $uname_without_domain);
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
                 $status->setAuthenticatedUserId(ilObjUser::_lookupId($ext_account));
                 return true;
