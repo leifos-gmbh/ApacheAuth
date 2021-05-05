@@ -66,9 +66,9 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 
     /**
      * Get all active auth ids
-     * @return array int
+     * @return int[]
      */
-    public function getAuthIds()
+    public function getAuthIds() : array
     {
         return [
             self::AUTH_ID_BASE
@@ -77,19 +77,19 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 
     /**
      * Get auth id by name
-     * @param type $a_auth_name
+     * @param string $a_auth_name
      */
-    public function getAuthIdByName($a_auth_name)
+    public function getAuthIdByName($a_auth_name) : int
     {
         return self::AUTH_ID_BASE;
     }
     
     /**
      * Get auth name by id
-     * @param type $a_auth_id
+     * @param int $a_auth_id
      * @return string
      */
-    public function getAuthName($a_auth_id)
+    public function getAuthName($a_auth_id) : string
     {
         return self::AUTH_NAME;
     }
@@ -97,45 +97,47 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 
     /**
      *
-     * @param type $a_auth_id
-     * @return type
+     * @param string $a_auth_id
+     * @return int
      */
-    public function getLocalPasswordValidationType($a_auth_id)
+    public function getLocalPasswordValidationType($a_auth_id) : int
     {
         return ilAuthUtils::LOCAL_PWV_FULL;
     }
 
     /**
-     *
+     * @inheritDoc
      */
-    public function isExternalAccountNameRequired($a_auth_id)
+    public function isExternalAccountNameRequired($a_auth_id) : bool
     {
         return true;
     }
 
     /**
      * Check if password modification is allowed
+     *
+     * @param int $a_auth_id
      */
-    public function isPasswordModificationAllowed($a_auth_id)
+    public function isPasswordModificationAllowed($a_auth_id) : bool
     {
         return false;
     }
 
     /**
      * Check multiple auth tries are suported
-     * @param type $a_auth_id
+     * @param int $a_auth_id
      * @return boolean
      */
-    public function supportsMultiCheck($a_auth_id)
+    public function supportsMultiCheck($a_auth_id) : bool
     {
         return true;
     }
 
     /**
      * Get options for mutliple auth mode selection
-     * @param type $a_auth_id
+     * @param int $a_auth_id
      */
-    public function getMultipleAuthModeOptions($a_auth_id)
+    public function getMultipleAuthModeOptions($a_auth_id) : array
     {
         return array();
     }
@@ -144,19 +146,19 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     
     /**
      * Extract auth id
-     * @param type $a_auth_id
+     * @param int $a_auth_id
      * @return int
      */
-    protected function extractServerId($a_auth_id)
+    protected function extractServerId($a_auth_id) : int
     {
         return 0;
     }
 
     /**
      * Check if auth is active
-     * @param type $a_auth_id
+     * @param int $a_auth_id
      */
-    public function isAuthActive($a_auth_id)
+    public function isAuthActive($a_auth_id) : bool
     {
         return true;
     }
@@ -179,17 +181,20 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
      * Auto load implementation
      *
      * @param string class name
+     * @return void
      */
-    final private function autoLoad($a_classname)
+    private function autoLoad(string $a_classname) : void
     {
         $class_file = $this->getClassesDirectory() . '/class.' . $a_classname . '.php';
-        @include_once($class_file);
+        if (file_exists($class_file) && include_once($class_file)) {
+            return;
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function getProvider(ilAuthCredentials $credentials, $a_auth_mode)
+    public function getProvider(ilAuthCredentials $credentials, $a_auth_mode) : ilAuthProviderApacheAuth
     {
         return new ilAuthProviderApacheAuth($credentials);
     }

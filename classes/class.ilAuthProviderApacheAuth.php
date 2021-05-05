@@ -37,7 +37,7 @@ class ilAuthProviderApacheAuth extends ilAuthProvider implements ilAuthProviderI
     /**
      * @inheritDoc
      */
-    public function doAuthentication(ilAuthStatus $status)
+    public function doAuthentication(ilAuthStatus $status) : bool
     {
         if (!isset($_SERVER[$this->getServer()->getIndicatorName()])) {
             $this->logger->debug('Authentication failed: no input for indicator value found');

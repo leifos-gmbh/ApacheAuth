@@ -57,6 +57,7 @@ class ilAuthContainerApachePlugin extends Auth_Container
      * @param string $username
      * @param string $password
      * @param bool $isChallengeResponse
+     * @return bool
      */
     public function fetchData(string $username, string $password, bool $isChallengeResponse = false) : bool
     {
@@ -83,7 +84,6 @@ class ilAuthContainerApachePlugin extends Auth_Container
         $this->logger->debug('Shortened username: ' . $uname_without_domain);
         
         // check for external account
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
         $servers = ilLDAPServer::_getActiveServerList();
         foreach ($servers as $server_id) {
             $ext_account = ilObjUser::_checkExternalAuthAccount('ldap_' . $server_id, $uname_without_domain);

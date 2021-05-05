@@ -32,17 +32,22 @@ class ilApacheAuthConfigGUI extends ilPluginConfigGUI
      */
     private $tpl;
 
-    /**
-    * Handles all commmands, default is "configure"
-    */
-    public function performCommand($cmd)
+
+    public function __construct()
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
-        $this->tpl = $DIC['tpl'];
+        $this->tpl = $DIC->ui()->mainTemplate();
+    }
+
+    /**
+    * Handles all commmands, default is "configure"
+    */
+    public function performCommand($cmd)
+    {
         
         $this->ctrl->saveParameter($this, "menu_id");
         
