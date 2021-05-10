@@ -3,10 +3,10 @@
 ApacheAuth is a repository plugin to store media items like pictures, videos and audios to view and share it in ILIAS as a gallery.
 
 **Minimum ILIAS Version:**
-6.0.0
+6.0
 
 **Maximum ILIAS Version:**
-6.9.999
+6.99
 
 **Responsible Developer:**
 Stefan Meyer - meyer AT leifos.com
