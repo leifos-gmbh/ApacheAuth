@@ -1,10 +1,19 @@
 <?php
-
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 /**
  *  Authentication settings
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilApacheAuthPluginSettings
@@ -40,7 +49,7 @@ class ilApacheAuthPluginSettings
         $this->storage = new ilSetting('lfskyauth_settings');
         $this->read();
     }
-    
+
     /**
      * Get Instance
      * @return ilApacheAuthPluginSettings
@@ -52,7 +61,7 @@ class ilApacheAuthPluginSettings
         }
         return self::$instance = new self();
     }
-    
+
     /**
      * Get storage
      * @return ilSetting
@@ -109,7 +118,7 @@ class ilApacheAuthPluginSettings
     {
         return $this->uname;
     }
-    
+
     /**
      * Save settings
      */
@@ -119,7 +128,7 @@ class ilApacheAuthPluginSettings
         $this->getStorage()->set('value', $this->getIndicatorValue());
         $this->getStorage()->set('uname', $this->getUsernameField());
     }
-    
+
     /**
      * Read settings
      */

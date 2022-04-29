@@ -6,7 +6,6 @@ include_once 'Auth/Container.php';
 
 /**
  * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilAuthContainerApachePlugin extends Auth_Container
@@ -20,9 +19,8 @@ class ilAuthContainerApachePlugin extends Auth_Container
      * @var string
      */
     private $valid_user = '';
-    
+
     /**
-     *
      * @var ilApacheAuthPluginSettings|null
      */
     private $settings = null;
@@ -39,24 +37,22 @@ class ilAuthContainerApachePlugin extends Auth_Container
     {
         $this->logger = ilLoggerFactory::getLogger('lfskyauth');
         $this->logger->debug('Called plugin construct');
-        
+
         $this->settings = ilApacheAuthPluginSettings::getInstance();
-        
+
         parent::__construct();
     }
-    
-    
+
     public function forceCreation(bool $a_status)
     {
         self::$force_creation = $a_status;
     }
-    
-    
+
     /**
      * Fetch data
      * @param string $username
      * @param string $password
-     * @param bool $isChallengeResponse
+     * @param bool   $isChallengeResponse
      * @return bool
      */
     public function fetchData(string $username, string $password, bool $isChallengeResponse = false) : bool
@@ -69,7 +65,7 @@ class ilAuthContainerApachePlugin extends Auth_Container
             $this->logger->info($this->settings->getIndicatorValue() . ' does not match ' . $_SERVER[$this->settings->getIndicatorName()]);
             return false;
         }
-        
+
         $uname = $_SERVER[$this->settings->getUsernameField()];
         $this->logger->debug('Original username: ' . $uname);
         if (!strlen($uname)) {
@@ -82,7 +78,7 @@ class ilAuthContainerApachePlugin extends Auth_Container
             $uname_without_domain = substr($uname, 0, strpos($uname, '@'));
         }
         $this->logger->debug('Shortened username: ' . $uname_without_domain);
-        
+
         // check for external account
         $servers = ilLDAPServer::_getActiveServerList();
         foreach ($servers as $server_id) {
@@ -93,14 +89,14 @@ class ilAuthContainerApachePlugin extends Auth_Container
                 break;
             }
         }
-        
+
         if ($this->valid_user) {
             $this->logger->info('Successfully authenticated ILIAS user: ' . $this->valid_user);
             return true;
         }
         return false;
     }
-    
+
     /**
      * Login observer
      * @param string $a_username

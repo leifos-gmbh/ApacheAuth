@@ -1,13 +1,19 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/classes/class.ilAuthPlugin.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthDefinition.php';
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 /**
  * Base plugin class
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
@@ -21,16 +27,15 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     const CNAME = 'Authentication';
     const SLOT_ID = 'authhk';
     const PNAME = 'ApacheAuth';
-    
+
     const AUTH_ID_BASE = 2000;
 
     const AUTH_NAME = 'Netscaler SSO';
-    
-    
+
     /**
      * Get singleton instance
-     * @global ilPluginAdmin $ilPluginAdmin
      * @return ilApacheAuthPlugin
+     * @global ilPluginAdmin $ilPluginAdmin
      */
     public static function getInstance() : ilApacheAuthPlugin
     {
@@ -54,7 +59,7 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     {
         $this->initAutoLoad();
     }
-    
+
     /**
      * Get name of plugin.
      */
@@ -62,7 +67,6 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     {
         return self::PNAME;
     }
-
 
     /**
      * Get all active auth ids
@@ -83,7 +87,7 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     {
         return self::AUTH_ID_BASE;
     }
-    
+
     /**
      * Get auth name by id
      * @param int $a_auth_id
@@ -94,9 +98,7 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
         return self::AUTH_NAME;
     }
 
-
     /**
-     *
      * @param string $a_auth_id
      * @return int
      */
@@ -115,7 +117,6 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
 
     /**
      * Check if password modification is allowed
-     *
      * @param int $a_auth_id
      */
     public function isPasswordModificationAllowed($a_auth_id) : bool
@@ -141,9 +142,7 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     {
         return array();
     }
-    
-    
-    
+
     /**
      * Extract auth id
      * @param int $a_auth_id
@@ -162,7 +161,7 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
     {
         return true;
     }
-    
+
     /**
      * Init auto loader
      * @return void
@@ -173,13 +172,12 @@ class ilApacheAuthPlugin extends ilAuthPlugin implements ilAuthDefinition
         $logger = $DIC->logger()->auth();
         $logger->debug('Init auto load');
         spl_autoload_register(
-            array($this,'autoLoad')
+            array($this, 'autoLoad')
         );
     }
 
     /**
      * Auto load implementation
-     *
      * @param string class name
      * @return void
      */
